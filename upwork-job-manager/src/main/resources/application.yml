@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: gs-extractor
+  data:
+    mongodb:
+      database: upwork
+      uri: mongodb://localhost
+  cache:
+    type: hazelcast
+  hazelcast:
+    config: classpath:hazelcast.xml
+
+
+
+scheduler.upwork: "0 */5 * ? * *"

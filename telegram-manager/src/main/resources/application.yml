@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: telegram-manager
+  data:
+    mongodb:
+      database: upwork
+      uri: mongodb://localhost
+  cache:
+    type: hazelcast
+  hazelcast:
+    config: classpath:hazelcast.xml
+bot:
+  name: ""
+  token: ""
+
+scheduler.job: "0/5 * * ? * *"

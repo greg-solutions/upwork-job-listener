@@ -1,0 +1,68 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+jar {
+    baseName  'api-service'
+}
+
+buildscript {
+    ext {
+        springBootVersion = '2.1.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+ext {
+    ethereumWeb3jVersion = '3.5.0'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+task runApiService(type: JavaExec) {
+    main = 'com.gs.api.ApiServiceMain'
+    classpath = sourceSets.main.runtimeClasspath
+    setWorkingDir("$rootDir/")
+}
+
+dependencies {
+    implementation project(":common")
+
+    compile "io.github.lognet:grpc-spring-boot-starter:3.2.1"
+
+
+    compile group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
+    
+    compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: springBootVersion
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-logging', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-actuator', version: springBootVersion
+
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: springBootVersion
+
+    compile group: 'com.hazelcast', name: 'hazelcast', version: '3.11.2'
+    compile group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.11.2'
+    compile group: 'com.hazelcast', name: 'spring-data-hazelcast', version: '2.2'
+    
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+
+    compile group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '2.19'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.0'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+
+}
