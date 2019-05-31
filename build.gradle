@@ -1,0 +1,78 @@
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'maven'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    group 'com'
+    version '1.0-SNAPSHOT'
+
+    ext {
+        springBootVersion = '2.1.2.RELEASE'
+        lombokVersion = '1.18.6'
+        springCloudVersion = '2.0.1.RELEASE'
+        logbackContribVersion = '0.1.5'
+
+        jdkVersion = 1.8
+        projectEncoding = 'UTF-8'
+
+    }
+
+    configurations.all {
+        // check for updates every build
+        resolutionStrategy {
+            cacheChangingModulesFor 10, 'seconds'
+            cacheDynamicVersionsFor 10, 'seconds'
+        }
+    }
+
+
+
+    buildscript {
+        repositories {
+            mavenCentral()
+            jcenter()
+            maven { url "http://repo.spring.io/snapshot" }
+            maven { url "http://repo.spring.io/milestone" }
+        }
+        dependencies {
+            classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+
+        }
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+    }
+
+    dependencies {
+
+        
+
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: springBootVersion
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: springBootVersion
+        compile group: 'org.springframework.boot', name: 'spring-boot-actuator', version: springBootVersion
+
+        compile "ch.qos.logback.contrib:logback-jackson:$logbackContribVersion"
+        compile "ch.qos.logback.contrib:logback-json-classic:$logbackContribVersion"
+
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+        compile group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+        implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+        testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.4.0'
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.4.0'
+        testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+
+        testImplementation "org.mockito:mockito-core:2.25.1"
+    }
+}

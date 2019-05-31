@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: upwork-extractor
+  data:
+    mongodb:
+      database: upwork
+      uri: mongodb://localhost
+server:
+  port: 8080
