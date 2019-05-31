@@ -1,3 +1,10 @@
 rootProject.name = 'upwork'
-include 'data-extractor'
+include 'common'
+include 'telegram-manager'
+include 'upwork-job-manager'
+
+project(':common').projectDir = 'common' as File
+project(':telegram-manager').projectDir = 'telegram-manager' as File
+project(':upwork-job-manager').projectDir = 'upwork-job-manager' as File
+include 'api-service'
 

@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+buildscript {
+    ext {
+
+        telegrambotsVersion = '4.2'
+        marlonlomVersion = '4.0.1'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+task runTelegramManagerService(type: JavaExec) {
+    main = 'com.gs.telegram.TelegramServiceMain'
+    classpath = sourceSets.main.runtimeClasspath
+    setWorkingDir("$rootDir/")
+}
+
+dependencies {
+    implementation project(":common")
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: springBootVersion
+
+    compile group: 'com.hazelcast', name: 'hazelcast', version: hazelcastVersion
+    compile group: 'com.hazelcast', name: 'hazelcast-spring', version: hazelcastVersion
+
+    compile group: 'com.hazelcast', name: 'spring-data-hazelcast', version: springDataHazelcastVersion
+
+    // https://mvnrepository.com/artifact/org.telegram/telegrambots
+    compile group: 'org.telegram', name: 'telegrambots', version: telegrambotsVersion
+    compile group: 'org.telegram', name: 'telegrambots-abilities', version: telegrambotsVersion
+
+    // https://mvnrepository.com/artifact/com.github.marlonlom/timeago
+    compile group: 'com.github.marlonlom', name: 'timeago', version: marlonlomVersion
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

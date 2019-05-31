@@ -1,12 +1,35 @@
 version: '2'
 services:
-  upwork-extractor:
+  api_service:
     build:
       context: .
-      dockerfile: data-extractor/Dockerfile
-    container_name: "upwork-extractor"
+      dockerfile: ./api-service/Dockerfile
+    container_name: "api_service"
     ports:
       - 8080:8080
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb/upwork
+      - SERVER_PORT=8080
+  telegram_manager:
+    build:
+      context: .
+      dockerfile: ./telegram-manager/Dockerfile
+    container_name: "telegram_manager"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb/upwork
+  upwork_job_manager:
+    build:
+      context: .
+      dockerfile: ./upwork-job-manager/Dockerfile
+    container_name: "upwork_job_manager"
     links:
       - mongodb
     depends_on:
