@@ -17,6 +17,7 @@ buildscript {
         springDataHazelcastVersion = '2.2'
         htmlunitVersion = '2.19'
         jacksonVersion = '2.9.9'
+        akkaVersion = '2.5.20'
         
         jdkVersion = 1.8
         projectEncoding = 'UTF-8'

@@ -1,10 +1,18 @@
 rootProject.name = 'upwork'
+
 include 'common'
+include 'akka-shared'
+include 'lighthouse'
+
+include 'api-service'
 include 'telegram-manager'
 include 'upwork-job-manager'
 
 project(':common').projectDir = 'common' as File
+project(':lighthouse').projectDir = 'lighthouse' as File
+project(':akka-shared').projectDir = 'akka-shared' as File
+project(':api-service').projectDir = 'api-service' as File
 project(':telegram-manager').projectDir = 'telegram-manager' as File
 project(':upwork-job-manager').projectDir = 'upwork-job-manager' as File
-include 'api-service'
+
 

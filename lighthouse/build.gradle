@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+buildscript {
+    ext {
+
+        telegrambotsVersion = '4.2'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+dependencies {
+    implementation project(":akka-shared")
+
+    compile group: 'com.hazelcast', name: 'hazelcast', version: hazelcastVersion
+    compile group: 'com.hazelcast', name: 'hazelcast-spring', version: hazelcastVersion
+
+    compile group: 'com.hazelcast', name: 'spring-data-hazelcast', version: springDataHazelcastVersion
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

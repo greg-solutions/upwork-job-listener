@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="JSON" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/lighthouse.json</file>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <append>true</append>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+                <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</timestampFormat>
+                <!--<timestampFormatTimezoneId>Etc/UTC</timestampFormatTimezoneId>-->
+                <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                </jsonFormatter>
+            </layout>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>./logs/lighthouse.%i.json</fileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+
+        <encoder>
+            <pattern>%date{HH:mm:ss.SSS} %-5level [%logger{35}] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="JSON"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <logger level="WARN" name="org.springframework"/>
+    <logger level="WARN" name="org.apache"/>
+    <logger level="INFO" name="general"/>
+    <logger level="INFO" name="net"/>
+    <logger level="ERROR" name="wire"/>
+    <logger level="INFO" name="discover"/>
+    <logger level="INFO" name="db"/>
+    <logger level="TRACE" name="sync"/>
+    <logger level="INFO" name="jsonrpc"/>
+
+    <logger level="INFO" name="com.overseer"/>
+    <logger level="ERROR" name="java.nio"/>
+    <logger level="ERROR" name="io.netty"/>
+    <logger level="ERROR" name="wire"/>
+    <logger level="ERROR" name="VM"/>
+    <logger level="ERROR" name="trie"/>
+    <logger level="ERROR" name="state"/>
+    <logger level="ERROR" name="execute"/>
+    <logger level="ERROR" name="rlp"/>
+
+
+</configuration>

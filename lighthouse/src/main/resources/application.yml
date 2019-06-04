@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ligthhouse
+  main.allow-bean-definition-overriding: true
+
+akka:
+  host: ${HOST:localhost}
+  port: ${PORT:4701}
+  lighthouse-url: ${LIGHTHOUSE_URL:localhost:4701}
