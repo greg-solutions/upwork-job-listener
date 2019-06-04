@@ -6,7 +6,7 @@
     <network>
         <port port-count="20">5702</port>
         <join>
-            <multicast enabled="true">
+            <multicast>
             </multicast>
 
         </join>

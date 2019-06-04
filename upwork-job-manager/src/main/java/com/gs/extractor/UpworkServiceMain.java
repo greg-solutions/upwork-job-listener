@@ -20,8 +20,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class UpworkServiceMain {
 
     public static void main(String[] args) {
-        System.setProperty("hazelcast.logging.type", "slf4j");
-        System.setProperty("file.encoding", "UTF-8");
         SpringApplication.run(UpworkServiceMain.class, args);
     }
 

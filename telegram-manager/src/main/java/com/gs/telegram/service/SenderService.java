@@ -1,14 +1,15 @@
 package com.gs.telegram.service;
 
+import com.gs.common.hazelcast.model.JobCachedModel;
+import com.gs.common.hazelcast.repository.JobCacheRepository;
 import com.gs.telegram.ChannelHandler;
+import com.gs.telegram.message.response.JobMessageBuilder;
+import com.gs.telegram.model.ChatModel;
 import lombok.extern.slf4j.Slf4j;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,10 +19,12 @@ public class SenderService {
     private static final Pattern REMOVE_TAGS = Pattern.compile("<.+?>");
     private final ChannelHandler sender;
     private final CharService charService;
+    private final JobCacheRepository jobCacheRepository;
 
-    public SenderService(ChannelHandler sender, CharService charService) {
+    public SenderService(ChannelHandler sender, CharService charService, JobCacheRepository jobCacheRepository) {
         this.sender = sender;
         this.charService = charService;
+        this.jobCacheRepository = jobCacheRepository;
     }
 
     public String removeTags(String string) {
@@ -33,33 +36,28 @@ public class SenderService {
         return m.replaceAll("");
     }
 
-    public void send(String message) {
-        charService.getAll().forEach(chatMetaData -> {
-            SendMessage sendDocument = new SendMessage();
-            sendDocument.setChatId(chatMetaData.getChatId());
-            sendDocument.setText(removeTags(message));
-            sendDocument.enableMarkdown(true);
+    public void send(String message, ChatModel chat) {
 
-            try {
-                sender.executeAsync(sendDocument, new SentCallback<Message>() {
-                    @Override
-                    public void onResult(BotApiMethod<Message> method, Message response) {
-                        log.debug("Message send is success. Message: {}", method.getMethod());
-                    }
+        SendMessage sendDocument = new SendMessage();
+        sendDocument.setChatId(chat.getChatId());
+        sendDocument.setText(removeTags(message));
+        sendDocument.enableMarkdown(true);
 
-                    @Override
-                    public void onError(BotApiMethod<Message> method, TelegramApiRequestException apiException) {
-                        log.debug("Message send is failed. Message: {}", method.getMethod());
-                    }
+        try {
+            sender.execute(sendDocument);
+        } catch (TelegramApiException e) {
+            log.error("Send message exception", e);
+        }
 
-                    @Override
-                    public void onException(BotApiMethod<Message> method, Exception exception) {
-                        log.debug("Message send exception. Message: {}", method.getMethod());
-                    }
-                });
-            } catch (TelegramApiException e) {
-                log.error("Send message exception", e);
-            }
-        });
+    }
+
+    public void send(JobCachedModel model) {
+        String message = new JobMessageBuilder(model).build();
+        List<ChatModel> chats = charService.getAll();
+        if (chats.isEmpty()) {
+            return;
+        }
+        charService.getAll().forEach(chat -> send(message, chat));
+        jobCacheRepository.delete(model);
     }
 }

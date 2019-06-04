@@ -3,7 +3,9 @@ apply plugin: 'org.springframework.boot'
 
 buildscript {
     ext {
-        springBootVersion = '2.1.1.RELEASE'
+
+        telegrambotsVersion = '4.2'
+        marlonlomVersion = '4.0.1'
     }
     repositories {
         mavenCentral()
@@ -11,17 +13,6 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
-}
-jar {
-    baseName  'telegram-manager'
-}
-
-version = '0.0.1-SNAPSHOT'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
 }
 
 task runTelegramManagerService(type: JavaExec) {
@@ -36,17 +27,19 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: springBootVersion
 
-    compile group: 'com.hazelcast', name: 'hazelcast', version: '3.11.2'
-    compile group: 'com.hazelcast', name: 'hazelcast-spring', version: '3.11.2'
-    compile group: 'com.hazelcast', name: 'spring-data-hazelcast', version: '2.2'
+    compile group: 'com.hazelcast', name: 'hazelcast', version: hazelcastVersion
+    compile group: 'com.hazelcast', name: 'hazelcast-spring', version: hazelcastVersion
 
+    compile group: 'com.hazelcast', name: 'spring-data-hazelcast', version: springDataHazelcastVersion
+
+    compile group: 'net.javacrumbs.shedlock', name: 'shedlock-provider-hazelcast', version: '2.5.0'
+    
     // https://mvnrepository.com/artifact/org.telegram/telegrambots
-    compile group: 'org.telegram', name: 'telegrambots', version: '4.2'
-    compile group: 'org.telegram', name: 'telegrambots-abilities', version: '4.2'
+    compile group: 'org.telegram', name: 'telegrambots', version: telegrambotsVersion
+    compile group: 'org.telegram', name: 'telegrambots-abilities', version: telegrambotsVersion
 
     // https://mvnrepository.com/artifact/com.github.marlonlom/timeago
-    compile group: 'com.github.marlonlom', name: 'timeago', version: '4.0.1'
+    compile group: 'com.github.marlonlom', name: 'timeago', version: marlonlomVersion
 
-
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

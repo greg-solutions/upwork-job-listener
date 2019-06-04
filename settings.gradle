@@ -2,11 +2,9 @@ rootProject.name = 'upwork'
 include 'common'
 include 'telegram-manager'
 include 'upwork-job-manager'
-include 'message-coordinator'
 
 project(':common').projectDir = 'common' as File
 project(':telegram-manager').projectDir = 'telegram-manager' as File
 project(':upwork-job-manager').projectDir = 'upwork-job-manager' as File
-project(':message-coordinator').projectDir = 'message-coordinator' as File
 include 'api-service'
 

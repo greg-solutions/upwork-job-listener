@@ -5,17 +5,20 @@ RUN java -version
 ARG APP_NAME=upwork-job-manager
 ARG APP_PATH=./$APP_NAME/build/libs/
 
-COPY . /dist
-WORKDIR /dist
+COPY . /build
+WORKDIR /build
 
 RUN ./gradlew clean build -p $APP_NAME
-RUN mv $APP_PATH /dist/
+
+COPY $APP_PATH/$APP_NAME-0.0.1-SNAPSHOT.jar /dist/java-application.jar
 
 # Stage 2 (to create a downsized "container executable", ~87MB)
 FROM openjdk:8u181-jre-alpine
 
-COPY --from=builder /dist/*.jar ./opt/
-RUN ls /opt/
+EXPOSE 5702
+
+COPY --from=builder /dist/java-application.jar ./opt/java-application.jar
+
 WORKDIR /opt/$APP_NAME
 ## Wait for script (see https://github.com/ufoscout/docker-compose-wait/)
 

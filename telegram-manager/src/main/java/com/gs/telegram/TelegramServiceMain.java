@@ -22,8 +22,6 @@ public class TelegramServiceMain {
 
     public static void main(String[] args) {
         ApiContextInitializer.init();
-        System.setProperty("hazelcast.logging.type", "slf4j");
-        System.setProperty("file.encoding", "UTF-8");
         SpringApplication.run(TelegramServiceMain.class, args);
     }
 

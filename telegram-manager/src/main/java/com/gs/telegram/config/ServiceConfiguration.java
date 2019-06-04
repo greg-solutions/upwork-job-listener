@@ -1,5 +1,6 @@
 package com.gs.telegram.config;
 
+import com.gs.common.hazelcast.repository.JobCacheRepository;
 import com.gs.telegram.ChannelHandler;
 import com.gs.telegram.repository.ChatRepository;
 import com.gs.telegram.service.CharService;
@@ -28,7 +29,7 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public SenderService senderService(ChannelHandler sender) {
-        return new SenderService(sender, charService());
+    public SenderService senderService(ChannelHandler sender, JobCacheRepository jobCacheRepository) {
+        return new SenderService(sender, charService(), jobCacheRepository);
     }
 }

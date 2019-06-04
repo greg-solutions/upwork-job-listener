@@ -21,9 +21,6 @@ public class UpworkApi {
         String searchUrl;
 
         WebClient client = new WebClient(BrowserVersion.CHROME);
-        CookieManager cookieManager = client.getCookieManager();
-
-        log.info("Cookie: {}", cookieManager.getCookies().toString());
 
         client.getOptions().setCssEnabled(false);
         client.getOptions().setJavaScriptEnabled(false);
