@@ -10,6 +10,7 @@ import com.gs.extractor.models.Job;
 import com.gs.extractor.service.JobService;
 import com.gs.extractor.service.UpworkService;
 import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.core.SchedulerLock;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.Instant;
@@ -25,6 +26,7 @@ public class JobListener {
     private final JobService jobService;
     private final UpworkService upworkService;
     private final JobCacheRepository jobCacheRepository;
+    private static final String FOURTEEN_MIN = "PT30S";
 
     public JobListener(QueryService queryService, JobService jobService, UpworkService upworkService, JobCacheRepository jobCacheRepository) {
         this.queryService = queryService;
@@ -34,6 +36,7 @@ public class JobListener {
     }
 
     @Scheduled(cron = "${scheduler.upwork}")
+    @SchedulerLock(name = "jobListenerTask", lockAtMostForString = FOURTEEN_MIN, lockAtLeastForString = FOURTEEN_MIN)
     public void checkNewJob() {
         log.info("Check new job");
 

@@ -32,6 +32,8 @@ dependencies {
 
     compile group: 'com.hazelcast', name: 'spring-data-hazelcast', version: springDataHazelcastVersion
 
+    compile group: 'net.javacrumbs.shedlock', name: 'shedlock-provider-hazelcast', version: '2.5.0'
+    
     // https://mvnrepository.com/artifact/org.telegram/telegrambots
     compile group: 'org.telegram', name: 'telegrambots', version: telegrambotsVersion
     compile group: 'org.telegram', name: 'telegrambots-abilities', version: telegrambotsVersion
