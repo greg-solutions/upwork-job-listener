@@ -10,10 +10,7 @@ import org.springframework.data.hazelcast.repository.config.EnableHazelcastRepos
 @Configuration
 @EnableHazelcastRepositories(basePackages = {"com.gs.common.hazelcast.repository"})
 public class HazelcastConfiguration {
-    @Bean
-    HazelcastInstance hazelcastInstance() {
-        return Hazelcast.newHazelcastInstance();
-    }
+
     @Bean
     public HazelcastLockProvider lockProvider(HazelcastInstance hazelcastInstance) {
         return new HazelcastLockProvider(hazelcastInstance);

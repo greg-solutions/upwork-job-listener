@@ -1,12 +1,18 @@
 version: '2'
 services:
+  lighthouse:
+    build:
+      context: .
+      dockerfile: ./lighthouse/Dockerfile
+    container_name: "lighthouse"
+
   api_service:
     build:
       context: .
       dockerfile: ./api-service/Dockerfile
     container_name: "api_service"
     ports:
-      - 8080:8080
+      - 8888:8080
     links:
       - mongodb
     depends_on:

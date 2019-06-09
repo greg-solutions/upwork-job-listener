@@ -14,5 +14,3 @@ project(':akka-shared').projectDir = 'akka-shared' as File
 project(':api-service').projectDir = 'api-service' as File
 project(':telegram-manager').projectDir = 'telegram-manager' as File
 project(':upwork-job-manager').projectDir = 'upwork-job-manager' as File
-
-

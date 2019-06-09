@@ -14,7 +14,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 @EnableScheduling
 @SpringBootApplication
 @EnableMongoRepositories(basePackages = {
-        "com.gs.common.repository",
+        "com.gs.mongo.repository",
         "com.gs.telegram.repository",
 })
 @EnableAspectJAutoProxy

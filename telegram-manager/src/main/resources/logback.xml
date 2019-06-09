@@ -2,7 +2,7 @@
 <configuration>
 
     <appender name="JSON" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>./logs/server.json</file>
+        <file>./logs/telegram-manager.json</file>
 
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
@@ -18,7 +18,7 @@
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>./logs/server.%i.json</fileNamePattern>
+            <fileNamePattern>./logs/telegram-manager.%i.json</fileNamePattern>
         </rollingPolicy>
         <triggeringPolicy
                 class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
@@ -37,24 +37,22 @@
         </encoder>
     </appender>
 
-    <root level="DEBUG">
-        <!--<appender-ref ref="JSON"/>-->
-        <appender-ref ref="CONSOLE"/>
+    <root level="INFO">
         <appender-ref ref="JSON"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
 
-    <logger level="DEBUG" name="org.springframework"/>
-    <logger level="DEBUG" name="com.gargoylesoftware.htmlunit"/>
-    <logger level="DEBUG" name="org.apache"/>
+    <logger level="WARN" name="org.springframework"/>
+    <logger level="WARN" name="org.apache"/>
     <logger level="INFO" name="general"/>
     <logger level="INFO" name="net"/>
     <logger level="ERROR" name="wire"/>
     <logger level="INFO" name="discover"/>
     <logger level="INFO" name="db"/>
     <logger level="TRACE" name="sync"/>
-    <logger level="DEBUG" name="jsonrpc"/>
+    <logger level="INFO" name="jsonrpc"/>
 
-    <logger level="DEBUG" name="com.gs"/>
+    <logger level="INFO" name="com.gs"/>
     <logger level="ERROR" name="java.nio"/>
     <logger level="ERROR" name="io.netty"/>
     <logger level="ERROR" name="wire"/>

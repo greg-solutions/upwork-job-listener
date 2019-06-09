@@ -9,8 +9,5 @@ import org.springframework.data.hazelcast.repository.config.EnableHazelcastRepos
 @Configuration
 @EnableHazelcastRepositories(basePackages = {"com.gs.common.hazelcast.repository"})
 public class HazelcastConfiguration {
-    @Bean
-    HazelcastInstance hazelcastInstance() {
-        return Hazelcast.newHazelcastInstance();
-    }
+
 }

@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Slf4j
 @SpringBootApplication
 @EnableMongoRepositories(basePackages = {
-        "com.gs.common.repository"
+        "com.gs.mongo.repository"
 })
 public class ApiServiceMain {
 
