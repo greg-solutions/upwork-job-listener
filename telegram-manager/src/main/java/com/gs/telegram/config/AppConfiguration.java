@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 @Configuration
 @ComponentScan(basePackages = {
         "com.gs.common",
+        "com.gs.provider",
         "com.gs.telegram"
 
 })

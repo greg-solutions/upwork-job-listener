@@ -1,7 +1,7 @@
 package com.gs.telegram.message.response;
 
 import com.github.marlonlom.utilities.timeago.TimeAgo;
-import com.gs.common.hazelcast.model.JobCachedModel;
+import com.gs.common.model.JobModel;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -10,9 +10,9 @@ import java.time.ZoneOffset;
 public class JobMessageBuilder {
 
     StringBuilder stringBuilder = new StringBuilder();
-    private JobCachedModel model;
+    private JobModel model;
 
-    public JobMessageBuilder(JobCachedModel model) {
+    public JobMessageBuilder(JobModel model) {
 
         this.model = model;
     }

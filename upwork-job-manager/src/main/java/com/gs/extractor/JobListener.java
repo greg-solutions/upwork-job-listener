@@ -1,8 +1,7 @@
 package com.gs.extractor;
 
 import com.gs.common.GenericBuilder;
-import com.gs.common.hazelcast.model.JobCachedModel;
-import com.gs.common.hazelcast.repository.JobCacheRepository;
+import com.gs.common.JobTransportProvider;
 import com.gs.common.model.JobModel;
 import com.gs.common.model.QueryModel;
 import com.gs.common.service.QueryService;
@@ -10,7 +9,6 @@ import com.gs.extractor.models.Job;
 import com.gs.extractor.service.JobService;
 import com.gs.extractor.service.UpworkService;
 import lombok.extern.slf4j.Slf4j;
-import net.javacrumbs.shedlock.core.SchedulerLock;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.Instant;
@@ -25,18 +23,16 @@ public class JobListener {
     private final QueryService queryService;
     private final JobService jobService;
     private final UpworkService upworkService;
-    private final JobCacheRepository jobCacheRepository;
-    private static final String FOURTEEN_MIN = "PT30S";
+    private final JobTransportProvider transportProvider;
 
-    public JobListener(QueryService queryService, JobService jobService, UpworkService upworkService, JobCacheRepository jobCacheRepository) {
+    public JobListener(QueryService queryService, JobService jobService, UpworkService upworkService, JobTransportProvider transportProvider) {
         this.queryService = queryService;
         this.jobService = jobService;
         this.upworkService = upworkService;
-        this.jobCacheRepository = jobCacheRepository;
+        this.transportProvider = transportProvider;
     }
 
     @Scheduled(cron = "${scheduler.upwork}")
-    @SchedulerLock(name = "jobListenerTask", lockAtMostForString = FOURTEEN_MIN, lockAtLeastForString = FOURTEEN_MIN)
     public void checkNewJob() {
         log.info("Check new job");
 
@@ -60,27 +56,28 @@ public class JobListener {
 
         jobs.stream()
                 .filter(job -> !persistedModelUids.contains(job.getUid()))
-                .forEach(jobModel -> {
-                    if (!jobService.getByUid(jobModel.getUid()).isPresent()) {
-                        jobService.add(jobModel);
-                        log.info("New JOB. Job Title: [{}]", jobModel.getTitle());
-                        JobCachedModel jobCachedModel = GenericBuilder
-                                .of(JobCachedModel::new)
-                                .with(JobCachedModel::setCreatedOn, jobModel.getCreatedOn())
-                                .with(JobCachedModel::setDescription, jobModel.getDescription())
-                                .with(JobCachedModel::setTitle, jobModel.getTitle())
-                                .with(JobCachedModel::setAmount, jobModel.getAmount())
-                                .with(JobCachedModel::setSkills, jobModel.getSkills())
-                                .with(JobCachedModel::setAttributes, jobModel.getAttributes())
-                                .with(JobCachedModel::setCategory2, jobModel.getCategory2())
-                                .with(JobCachedModel::setSubcategory2, jobModel.getSubcategory2())
-                                .with(JobCachedModel::setCiphertext, jobModel.getCiphertext())
-                                .with(JobCachedModel::setDuration, jobModel.getDuration())
-                                .with(JobCachedModel::setQuery, queryModel.get().getQuery())
-                                .with(JobCachedModel::setJobUrl, JOB_LINK_URL + jobModel.getUrl())
+                .forEach(job -> {
+
+                    if (!jobService.getByUid(job.getUid()).isPresent()) {
+                        jobService.add(job);
+                        log.info("New JOB. Job Title: [{}]", job.getTitle());
+                        JobModel jobModel = GenericBuilder
+                                .of(JobModel::new)
+                                .with(JobModel::setCreatedOn, job.getCreatedOn())
+                                .with(JobModel::setDescription, job.getDescription())
+                                .with(JobModel::setTitle, job.getTitle())
+                                .with(JobModel::setAmount, job.getAmount())
+                                .with(JobModel::setSkills, job.getSkills())
+                                .with(JobModel::setAttributes, job.getAttributes())
+                                .with(JobModel::setCategory2, job.getCategory2())
+                                .with(JobModel::setSubcategory2, job.getSubcategory2())
+                                .with(JobModel::setCiphertext, job.getCiphertext())
+                                .with(JobModel::setDuration, job.getDuration())
+                                .with(JobModel::setQuery, queryModel.get().getQuery())
+                                .with(JobModel::setJobUrl, JOB_LINK_URL + job.getUrl())
                                 .build();
 
-                        jobCacheRepository.save(jobCachedModel);
+                        transportProvider.add(jobModel);
                     }
 
                 });

@@ -1,7 +1,7 @@
 package com.gs.telegram.service;
 
-import com.gs.common.hazelcast.model.JobCachedModel;
-import com.gs.common.hazelcast.repository.JobCacheRepository;
+import com.gs.common.JobTransportProvider;
+import com.gs.common.model.JobModel;
 import com.gs.telegram.ChannelHandler;
 import com.gs.telegram.message.response.JobMessageBuilder;
 import com.gs.telegram.model.ChatModel;
@@ -19,12 +19,12 @@ public class SenderService {
     private static final Pattern REMOVE_TAGS = Pattern.compile("<.+?>");
     private final ChannelHandler sender;
     private final CharService charService;
-    private final JobCacheRepository jobCacheRepository;
+    private final JobTransportProvider transportProvider;
 
-    public SenderService(ChannelHandler sender, CharService charService, JobCacheRepository jobCacheRepository) {
+    public SenderService(ChannelHandler sender, CharService charService, JobTransportProvider transportProvider) {
         this.sender = sender;
         this.charService = charService;
-        this.jobCacheRepository = jobCacheRepository;
+        this.transportProvider = transportProvider;
     }
 
     public String removeTags(String string) {
@@ -51,13 +51,13 @@ public class SenderService {
 
     }
 
-    public void send(JobCachedModel model) {
+    public void send(JobModel model) {
         String message = new JobMessageBuilder(model).build();
         List<ChatModel> chats = charService.getAll();
         if (chats.isEmpty()) {
             return;
         }
         charService.getAll().forEach(chat -> send(message, chat));
-        jobCacheRepository.delete(model);
+
     }
 }

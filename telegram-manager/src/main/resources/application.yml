@@ -10,7 +10,7 @@ spring:
   hazelcast:
     config: classpath:hazelcast.xml
 bot:
-  name: ""
-  token: ""
+  name: "GregSolutionsJobListenerBot"
+  token: "843031210:AAHqeOjMDaHCnxQI3fMicw_-9VKcZHKi7Dc"
 
-scheduler.job: "0/5 * * ? * *"
+scheduler.job: "0/3 * * ? * *"

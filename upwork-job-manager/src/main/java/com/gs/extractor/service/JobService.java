@@ -15,7 +15,6 @@ public class JobService {
         this.jobRepository = jobRepository;
     }
 
-    @Cacheable("jobs")
     public void add(Job jobModel) {
         jobRepository.save(jobModel);
     }

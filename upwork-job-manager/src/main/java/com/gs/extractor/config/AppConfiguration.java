@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = {
-        "com.gs.common.hazelcast",
         "com.gs.common.service",
+        "com.gs.provider",
         "com.gs.extractor"
 })
 @EnableConfigurationProperties

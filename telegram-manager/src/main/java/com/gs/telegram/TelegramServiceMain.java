@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.ApiContextInitializer;
 
 @Slf4j
-@EnableCaching
 @EnableScheduling
 @SpringBootApplication
 @EnableMongoRepositories(basePackages = {

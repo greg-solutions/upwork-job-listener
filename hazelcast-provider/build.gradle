@@ -1,0 +1,24 @@
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+apply plugin: 'java'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":common")
+
+    compile group: 'com.hazelcast', name: 'spring-data-hazelcast', version: springDataHazelcastVersion
+
+    compile group: 'com.hazelcast', name: 'hazelcast', version: hazelcastVersion
+    compile group: 'com.hazelcast', name: 'hazelcast-spring', version: hazelcastVersion
+
+    compile group: 'net.javacrumbs.shedlock', name: 'shedlock-provider-hazelcast', version: '2.5.0'
+}

@@ -10,6 +10,9 @@ import java.util.List;
 @Data
 public class JobModel extends PersistenceModel {
 
+    private String jobUrl;
+    private String query;
+
     @SerializedName(value = "title")
     String title;
     @SerializedName(value = "createdOn")

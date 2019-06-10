@@ -1,22 +1,24 @@
-package com.gs.telegram.config;
+package com.gs.provider.hazelcast.config;
 
+import com.gs.common.JobTransportProvider;
+import com.gs.provider.hazelcast.repository.JobHazelcastRepository;
+import com.gs.provider.hazelcast.service.HazelcastJobTransportProvider;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-import net.javacrumbs.shedlock.provider.hazelcast.HazelcastLockProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.hazelcast.repository.config.EnableHazelcastRepositories;
 
 @Configuration
-@EnableHazelcastRepositories(basePackages = {"com.gs.common.hazelcast.repository"})
+@EnableHazelcastRepositories(basePackageClasses = {JobHazelcastRepository.class})
 public class HazelcastConfiguration {
     @Bean
     HazelcastInstance hazelcastInstance() {
         return Hazelcast.newHazelcastInstance();
     }
-    @Bean
-    public HazelcastLockProvider lockProvider(HazelcastInstance hazelcastInstance) {
-        return new HazelcastLockProvider(hazelcastInstance);
-    }
 
+    @Bean
+    public JobTransportProvider transportProvider(JobHazelcastRepository repository) {
+        return new HazelcastJobTransportProvider(repository);
+    }
 }

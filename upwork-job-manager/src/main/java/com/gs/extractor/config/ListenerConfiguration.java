@@ -1,6 +1,6 @@
 package com.gs.extractor.config;
 
-import com.gs.common.hazelcast.repository.JobCacheRepository;
+import com.gs.common.JobTransportProvider;
 import com.gs.common.service.QueryService;
 import com.gs.extractor.JobListener;
 import com.gs.extractor.service.JobService;
@@ -18,9 +18,9 @@ public class ListenerConfiguration {
 
     @Bean
     public JobListener jobListener(JobService jobService, QueryService queryService,
-                                   UpworkService upworkService, JobCacheRepository jobCacheRepository) {
+                                   UpworkService upworkService, JobTransportProvider transportProvider) {
 
-        return new JobListener(queryService, jobService, upworkService, jobCacheRepository);
+        return new JobListener(queryService, jobService, upworkService, transportProvider);
     }
 
 

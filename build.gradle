@@ -32,16 +32,12 @@ buildscript {
 }
 
 group 'greg-solutions'
-version '1.0-SNAPSHOT'
 
 allprojects {
 
     apply plugin: 'java'
     apply plugin: 'maven'
     apply plugin: 'eclipse'
-    apply plugin: 'io.spring.dependency-management'
-
-    version = '0.0.1-SNAPSHOT'
     
     repositories {
         mavenCentral()

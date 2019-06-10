@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Slf4j
-@EnableCaching
 @EnableScheduling
 @SpringBootApplication
 @EnableMongoRepositories(basePackages = {

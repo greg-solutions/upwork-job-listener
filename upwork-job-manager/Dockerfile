@@ -10,7 +10,7 @@ WORKDIR /build
 
 RUN ./gradlew clean build -p $APP_NAME
 
-COPY $APP_PATH/$APP_NAME-0.0.1-SNAPSHOT.jar /dist/java-application.jar
+COPY $APP_PATH/upwork-job-manager.jar /dist/java-application.jar
 
 # Stage 2 (to create a downsized "container executable", ~87MB)
 FROM openjdk:8u181-jre-alpine

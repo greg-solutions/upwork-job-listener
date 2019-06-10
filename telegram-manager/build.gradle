@@ -23,14 +23,10 @@ task runTelegramManagerService(type: JavaExec) {
 
 dependencies {
     implementation project(":common")
-
+    implementation project(":hazelcast-provider")
+    
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: springBootVersion
-
-    compile group: 'com.hazelcast', name: 'hazelcast', version: hazelcastVersion
-    compile group: 'com.hazelcast', name: 'hazelcast-spring', version: hazelcastVersion
-
-    compile group: 'com.hazelcast', name: 'spring-data-hazelcast', version: springDataHazelcastVersion
 
     compile group: 'net.javacrumbs.shedlock', name: 'shedlock-provider-hazelcast', version: '2.5.0'
     
